@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}Shadow Realm Archive{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/main.css"/>
+    <link rel="stylesheet" href="/static/css/pages.css"/>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-brand">☥ <span>Shadow Realm</span> Archive</a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        {% if user %}
+            <li><a href="/profile">Duelist</a></li>
+            {% if user.role in ['archivist', 'pegasus'] %}
+            <li><a href="/archive">📁 Archive</a></li>
+            <li><a href="/api/duel">⚡ API</a></li>
+            {% endif %}
+            {% if user.role == 'pegasus' %}
+            <li><a href="/pegasus">🌀 Sanctum</a></li>
+            <li><a href="/export/pdf">📄 Export</a></li>
+            {% endif %}
+            <li><span class="nav-role-badge role-{{ user.role }}">{{ user.role }}</span></li>
+            <li><a href="/logout">Logout</a></li>
+        {% else %}
+            <li><a href="/login">Enter</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <!-- Academy public key available for token verification: /static/pubkey.pem -->
+    <p>Duel Academy Archive System &mdash; DuelRenderer v2.1 | Internal services bound to academy-local interface</p>
+    <p style="margin-top:0.5rem; font-size:0.75rem; color:#4a3e2a;">
+        "The Millennium Eye sees all who seek the forbidden knowledge."
+    </p>
+</footer>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}The Archive — Shadow Realm{% endblock %}
+
+{% block content %}
+<h1>📁 The Archive</h1>
+<p class="subtitle">Duel Records API — Archivist Clearance Confirmed</p>
+
+<!-- ── Big obvious API panel ─────────────────────────────────────────── -->
+<div class="panel" style="border-color:rgba(0,200,160,0.5);">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <h2 style="color:var(--teal);">⚡ Duel Records API — GraphQL</h2>
+    <div class="divider"></div>
+    <p style="line-height:1.8; color:var(--text-dim);">
+        Welcome, Archivist. You now have access to the Duel Records API.
+        This system exposes a <strong style="color:var(--gold);">GraphQL interface</strong>.
+        The schema is self-documented — run an introspection query to discover all available operations.
+    </p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.25rem;">
+        <div class="api-hint">
+            <strong style="font-family:'Cinzel',serif; font-size:0.75rem; color:var(--gold-dim); letter-spacing:0.1em; text-transform:uppercase;">Endpoint</strong>
+            <code style="display:block; margin-top:0.4rem;">POST /api/duel</code>
+            <code style="display:block; color:var(--text-dim); font-size:0.78rem;">Content-Type: application/json</code>
+        </div>
+        <div class="api-hint">
+            <strong style="font-family:'Cinzel',serif; font-size:0.75rem; color:var(--gold-dim); letter-spacing:0.1em; text-transform:uppercase;">Introspection</strong>
+            <code style="display:block; margin-top:0.4rem; color:var(--teal); font-size:0.78rem;">{ __schema { types { name fields { name } } } }</code>
+        </div>
+    </div>
+
+    <div style="margin-top:1rem; padding:1rem; background:rgba(0,0,0,0.35); border:1px solid rgba(0,200,160,0.2);">
+        <strong style="font-family:'Cinzel',serif; font-size:0.75rem; color:var(--gold-dim); letter-spacing:0.1em; text-transform:uppercase;">Example Query</strong>
+        <pre style="margin-top:0.5rem; border:none; padding:0; background:none;">{ checkPegasusVault(pin: "0000") { success message } }</pre>
+    </div>
+
+    <div style="margin-top:1.25rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
+        <a href="/api/duel" class="btn btn-teal">⚡ Open GraphQL Explorer</a>
+        <span style="font-size:0.85rem; color:var(--text-dim); font-style:italic;">
+            — or query directly with curl / Burp / your tool of choice
+        </span>
+    </div>
+</div>
+
+<!-- ── Rate limit / batching hint ────────────────────────────────────── -->
+<div class="panel" style="border-color:rgba(201,168,76,0.3);">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <div class="alert alert-info" style="margin-bottom:0.75rem;">
+        👁 <strong>Archivist Notice:</strong> Master Pegasus has locked his personal vault with a
+        <strong>4-digit Millennium code</strong>. Only the worthy may enter.
+        The <code>checkPegasusVault</code> operation is available through the API —
+        but the <strong>Millennium Eye grows suspicious of rapid attempts</strong>...
+    </div>
+    <p style="color:var(--text-dim); font-style:italic; font-size:0.95rem; line-height:1.8;">
+        "The correct code will reveal what must be done next. Perhaps there is a way to make the eye blink...
+        to ask <strong style="color:var(--gold-light);">many questions at once</strong> before it notices."
+    </p>
+    <div style="margin-top:1rem; padding:0.75rem 1rem; background:rgba(0,0,0,0.3); border-left:2px solid var(--gold-dim); font-family:'Courier New',monospace; font-size:0.82rem; color:var(--text-dim);">
+        <span style="color:var(--gold-dim);">// Single request — rate limited</span><br/>
+        <span style="color:var(--text);">POST /api/duel  →  { "query": "..." }</span><br/><br/>
+        <span style="color:var(--gold-dim);">// Batch request — ?</span><br/>
+        <span style="color:var(--teal);">POST /api/duel  →  [ { "query": "..." }, { "query": "..." }, ... ]</span>
+    </div>
+</div>
+
+<!-- ── Duelist registry ───────────────────────────────────────────────── -->
+<h2>Known Duelists</h2>
+<p class="mt-1" style="color:var(--text-dim); font-style:italic; font-size:0.9rem;">Partial registry — some records remain sealed.</p>
+
+<div class="archive-grid">
+    <div class="archive-entry">
+        <div class="entry-id">ID: 001</div>
+        <div class="entry-name">Yugi Muto</div>
+        <div class="entry-deck">Deck: Dark Magician</div>
+        <div class="entry-rank">✦ King of Games</div>
+    </div>
+    <div class="archive-entry">
+        <div class="entry-id">ID: 002</div>
+        <div class="entry-name">Seto Kaiba</div>
+        <div class="entry-deck">Deck: Blue-Eyes White Dragon</div>
+        <div class="entry-rank">✦ Vice-Champion</div>
+    </div>
+    <div class="archive-entry">
+        <div class="entry-id">ID: 003</div>
+        <div class="entry-name">Joey Wheeler</div>
+        <div class="entry-deck">Deck: Red-Eyes Black Dragon</div>
+        <div class="entry-rank">✦ Runner-Up</div>
+    </div>
+    <div class="archive-entry pegasus-locked">
+        <div class="entry-id">ID: 004</div>
+        <div class="entry-name">Maximillion Pegasus</div>
+        <div class="entry-deck">Deck: Toon World</div>
+        <div class="entry-rank" style="color:var(--red-bright);">✦ Creator — VAULT SEALED</div>
+        <div class="lock-overlay">🔒 Protected by 4-digit Millennium Code</div>
+    </div>
+</div>
+{% endblock %}

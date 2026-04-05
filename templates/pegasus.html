@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Pegasus Sanctum — Shadow Realm{% endblock %}
+
+{% block content %}
+<div class="sanctum-hero">
+    <span class="toon-eye">𓂀</span>
+    <h1>Pegasus Sanctum</h1>
+    <p class="subtitle">You have pierced the veil. Welcome to the innermost chamber.</p>
+</div>
+
+<div class="panel" style="border-color:rgba(0,200,160,0.4);">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <div class="alert alert-success">
+        ✨ <strong>Millennium Eye Confirmed:</strong> Identity authenticated as Maximillion Pegasus.
+        The Shadow Realm bows before you.
+    </div>
+    <p class="mt-2" style="line-height:1.9;">
+        You stand in the deepest archive — a place Pegasus built to hide the truth of the Millennium Items.
+        The <em>Final Secret</em> is sealed within an academy-local vault, accessible only from within the internal network.
+    </p>
+    <p class="mt-2" style="line-height:1.9; color:var(--text-dim); font-style:italic;">
+        "I designed this system myself. The vault does not respond to outsiders — only requests that originate
+        from within the academy walls. The <strong class="text-gold">Export Chamber</strong> was built to render reports
+        from any template source. It runs in the same network as everything else..."
+    </p>
+</div>
+
+<div class="sanctum-grid">
+    <div class="panel secret-panel">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+        <h2>📜 Duel Export System</h2>
+        <div class="divider"></div>
+        <p style="color:var(--text-dim); line-height:1.8; font-size:0.95rem;">
+            Generate PDF reports of duel records. Provide any template URL and the renderer
+            will fetch and render it into a formatted document.
+        </p>
+        <p class="mt-2" style="color:var(--text-dim); font-size:0.85rem; font-style:italic;">
+            The renderer runs in the same network as the card database cache.
+        </p>
+        <a href="/export/pdf" class="btn btn-teal mt-3">📄 Open Export Chamber</a>
+    </div>
+
+    <div class="panel">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+        <h2>🔐 Final Vault</h2>
+        <div class="divider"></div>
+        <p style="color:var(--text-dim); line-height:1.8; font-size:0.95rem;">
+            The ultimate secret rests in the <em>Millennium Vault</em>.
+            It is bound strictly to the <strong class="text-gold">academy-local interface</strong> —
+            no external connection can reach it directly.
+        </p>
+        <p class="mt-2" style="line-height:1.8; font-size:0.95rem; color:var(--text-dim);">
+            Only a request born from <em>within</em> the academy walls can unlock its contents.
+        </p>
+        <div class="alert alert-info mt-2">
+            <!-- vault endpoint restricted to academy internal network only -->
+            🔒 Direct external access: <strong>FORBIDDEN</strong>
+        </div>
+    </div>
+</div>
+{% endblock %}

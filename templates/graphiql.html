@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}GraphQL Explorer — Shadow Realm Archive{% endblock %}
+
+{% block content %}
+<h1>⚡ Duel Records API</h1>
+<p class="subtitle">GraphQL Interface — Archivist Access Confirmed</p>
+
+<div class="panel">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <h2>Schema Reference</h2>
+    <div class="schema-box">
+<span class="kw">type</span> <span class="ty">Query</span> {<br/>
+&nbsp;&nbsp;<span class="fld">duelists</span>: [<span class="ty">Duelist</span>!]!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># List all registered duelists</span><br/>
+&nbsp;&nbsp;<span class="fld">getDuelistById</span>(id: <span class="ty">ID!</span>): <span class="ty">Duelist</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Fetch single duelist</span><br/>
+&nbsp;&nbsp;<span class="fld">checkPegasusVault</span>(pin: <span class="ty">String!</span>): <span class="ty">VaultResult!</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Unlock the vault</span><br/>
+}<br/><br/>
+<span class="kw">type</span> <span class="ty">Duelist</span> {<br/>
+&nbsp;&nbsp;<span class="fld">id</span>: <span class="ty">ID</span>, <span class="fld">name</span>: <span class="ty">String</span>, <span class="fld">deck</span>: <span class="ty">String</span>, <span class="fld">lp</span>: <span class="ty">Int</span>, <span class="fld">rank</span>: <span class="ty">String</span><br/>
+}<br/>
+<span class="kw">type</span> <span class="ty">VaultResult</span> { <span class="fld">success</span>: <span class="ty">Boolean</span>, <span class="fld">message</span>: <span class="ty">String</span> }
+    </div>
+    <p class="mt-1" style="font-size:0.85rem; color:var(--text-dim); font-style:italic;">
+        💡 Run <code>{ __schema { types { name fields { name } } } }</code> for full introspection.
+    </p>
+</div>
+
+<div class="explorer-wrap">
+    <div class="editor-panel">
+        <div class="panel" style="padding:1.25rem;">
+            <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+            <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+            <h2 style="margin-bottom:0.75rem;">Query Editor</h2>
+            <div class="query-presets">
+                <button class="preset-btn" onclick="setQuery('{ duelists { id name deck rank } }')">List Duelists</button>
+                <button class="preset-btn" onclick="setQuery('{ getDuelistById(id: \"1\") { name deck lp rank } }')">Get By ID</button>
+                <button class="preset-btn" onclick="setQuery('{ checkPegasusVault(pin: \"0000\") { success message } }')">Check Vault</button>
+                <button class="preset-btn" onclick="setQuery('{ __schema { types { name fields { name } } } }')">Introspect</button>
+            </div>
+            <textarea class="gql-input" id="queryInput" spellcheck="false">{ duelists { id name deck rank } }</textarea>
+            <button class="btn btn-teal" onclick="runQuery()" style="width:100%; margin-top:0.5rem;">▶ Execute Query &nbsp;<small style="opacity:0.6;">(Ctrl+Enter)</small></button>
+        </div>
+    </div>
+
+    <div>
+        <div class="panel" style="padding:1.25rem;">
+            <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+            <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+            <h2 style="margin-bottom:0.75rem;">Response</h2>
+            <div class="result-box" id="resultBox"><span style="color:var(--text-dim); font-style:italic;">// Execute a query to see results here</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="panel mt-2" style="border-color:rgba(201,168,76,0.2);">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <div class="alert alert-info">
+        ⚠️ <strong>Rate Notice:</strong> The <code>checkPegasusVault</code> operation is protected.
+        The Millennium Eye grows suspicious of rapid attempts — excessive requests will be rejected.
+    </div>
+    <p class="mt-1" style="color:var(--text-dim); font-size:0.9rem; font-style:italic;">
+        "The correct code will reveal what must be done next."
+    </p>
+</div>
+{% endblock %}

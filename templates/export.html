@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Export Chamber — Shadow Realm{% endblock %}
+
+{% block content %}
+<h1>📄 Export Chamber</h1>
+<p class="subtitle">Duel Report Renderer — Pegasus Sanctum Tool</p>
+
+<div class="panel">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+
+    <h2>Template Renderer</h2>
+    <div class="divider"></div>
+    <p style="color:var(--text-dim); line-height:1.8; margin-bottom:1.5rem;">
+        Provide a template URL. The renderer will fetch the remote HTML and generate a duel report document.
+        Supports any HTTP-accessible template source.
+    </p>
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Template URL</label>
+            <input type="text" name="template_url"
+                   placeholder="https://your-template-server.com/report.html"
+                   value="{{ request.form.get('template_url', '') }}"/>
+            <div class="url-examples">
+                <span style="font-size:0.78rem; color:var(--text-dim); align-self:center;">e.g.:</span>
+                <span class="url-chip">https://example.com</span>
+                <span class="url-chip">http://localhost:5000/</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-teal">⚡ Render Report</button>
+    </form>
+
+    <div class="renderer-info">
+        DuelRenderer v2.1 &mdash; Template fetch engine<br/>
+        Internal network access: <span class="text-teal">ENABLED</span> &mdash;
+        Supported schemes: http, https &mdash; Timeout: 5s
+    </div>
+
+    {% if error %}
+    <div class="alert alert-error mt-3">⚠ {{ error }}</div>
+    {% endif %}
+
+    {% if result is not none %}
+    <h3 class="mt-3 text-teal">Rendered Output:</h3>
+    <div class="export-result">{{ result }}</div>
+    {% endif %}
+</div>
+
+<div class="panel" style="border-color:rgba(201,168,76,0.2);">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <h3>📋 How It Works</h3>
+    <div class="divider"></div>
+    <p style="color:var(--text-dim); font-size:0.95rem; line-height:1.9;">
+        The renderer fetches your template URL server-side, processes the HTML, and returns the content.
+        Because rendering happens <em>within the academy network</em>, the fetcher has access to resources
+        that external clients cannot reach.
+    </p>
+    <p class="mt-2" style="color:var(--text-dim); font-size:0.85rem; font-style:italic;">
+        "I built this tool to access any resource the academy server can see. Every network. Every interface.
+        That was the intention." — Maximillion Pegasus
+    </p>
+</div>
+{% endblock %}

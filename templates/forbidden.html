@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Access Denied — Shadow Realm{% endblock %}
+
+{% block content %}
+<div class="text-center" style="padding:5rem 0;">
+    <div class="millennium-eye glitch" style="font-size:6rem; filter:hue-rotate(330deg);">𓂀</div>
+    <h1 style="color:var(--red-bright); font-size:2.5rem; margin-top:1rem;">Access Denied</h1>
+    <p class="subtitle">The Shadow Realm rejects you.</p>
+
+    <div class="panel" style="max-width:500px; margin:2rem auto; border-color:var(--red-bright);">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+        <p style="line-height:1.9; color:var(--text-dim);">
+            Your current clearance level
+            <span class="nav-role-badge role-{{ user.role }}">{{ user.role }}</span>
+            is insufficient to access this chamber.
+        </p>
+        <p class="mt-2" style="font-style:italic; color:var(--text-dim);">
+            "Only the worthy may gaze upon these secrets.
+            The Millennium Eye has deemed you unworthy... for now."
+        </p>
+        <a href="/" class="btn btn-danger mt-3">← Return to the Archive</a>
+    </div>
+</div>
+{% endblock %}

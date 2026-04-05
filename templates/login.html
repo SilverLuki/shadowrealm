@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Enter the Archive — Shadow Realm{% endblock %}
+
+{% block content %}
+<div class="duel-card-bg">
+    <div class="floating-card" style="left:5%;  animation-duration:12s; animation-delay:0s;"></div>
+    <div class="floating-card" style="left:20%; animation-duration:18s; animation-delay:3s;"></div>
+    <div class="floating-card" style="left:50%; animation-duration:15s; animation-delay:7s;"></div>
+    <div class="floating-card" style="left:75%; animation-duration:20s; animation-delay:1s;"></div>
+    <div class="floating-card" style="left:90%; animation-duration:14s; animation-delay:9s;"></div>
+</div>
+
+<div class="login-wrap">
+    <div class="login-box">
+        <div class="eye-glow">𓂀</div>
+        <h1 class="login-title glitch">Shadow Realm Archive</h1>
+        <p class="login-sub subtitle">Duel Academy Classified Systems — Authorized Personnel Only</p>
+
+        <div class="panel">
+            <div class="panel-corner tl"></div>
+            <div class="panel-corner tr"></div>
+            <div class="panel-corner bl"></div>
+            <div class="panel-corner br"></div>
+
+            <h2>Duelist Authentication</h2>
+
+            {% if error %}
+            <div class="alert alert-error">⚠ {{ error }}</div>
+            {% endif %}
+
+            <form method="POST">
+                <div class="form-group">
+                    <label>Duelist Name</label>
+                    <input type="text" name="username" placeholder="Enter your name..." autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                    <label>Secret Code</label>
+                    <input type="password" name="password" placeholder="••••••••"/>
+                </div>
+                <button type="submit" class="btn" style="width:100%;">⚔ Enter the Archive</button>
+            </form>
+
+            <div class="accounts-hint">
+                <strong>Known Duelists</strong><br/>
+                <span style="font-style:italic; color:var(--text-dim);">yugi · kaiba · joey</span><br/>
+                <span style="font-size:0.8rem; color:var(--text-dim);">"Others dwell deeper in the Shadow Realm..."</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Shadow Realm Archive — Home{% endblock %}
+
+{% block content %}
+<canvas id="particleCanvas" style="position:fixed;top:0;left:0;pointer-events:none;z-index:0;opacity:0.6;"></canvas>
+
+<div class="hero" style="position:relative;z-index:1;">
+    <span class="hero-eye glitch">𓂀</span>
+    <h1>Shadow Realm Archive</h1>
+    <p class="subtitle">The Duel Academy's Classified Knowledge Repository</p>
+    {% if not user %}
+    <a href="/login" class="btn mt-4">⚔ Authenticate to Enter</a>
+    {% endif %}
+</div>
+
+<div class="lore-grid" style="position:relative;z-index:1;">
+    <div class="lore-card">
+        <div class="lore-icon">🃏</div>
+        <h3>Duelist Registry</h3>
+        <p class="mt-1" style="color:var(--text-dim); font-size:0.95rem; line-height:1.7;">
+            View registered duelists, their decks, and duel records.
+            Only authenticated duelists may access their profile.
+        </p>
+        <div class="mt-2">
+            {% if user %}<span class="access-ok">✦ ACCESS GRANTED</span>
+            {% else %}<span class="access-denied">✦ LOGIN REQUIRED</span>{% endif %}
+        </div>
+    </div>
+
+    <div class="lore-card">
+        <div class="lore-icon">📜</div>
+        <h3>The Archive</h3>
+        <p class="mt-1" style="color:var(--text-dim); font-size:0.95rem; line-height:1.7;">
+            Restricted duel records and card histories.
+            Reserved for Academy Archivists with elevated clearance.
+        </p>
+        <div class="mt-2">
+            {% if user and user.role in ['archivist','pegasus'] %}
+            <span class="access-ok">✦ ACCESS GRANTED</span>
+            {% else %}
+            <span class="access-denied">✦ ARCHIVIST CLEARANCE REQUIRED</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="lore-card">
+        <div class="lore-icon">👁</div>
+        <h3>Pegasus Sanctum</h3>
+        <p class="mt-1" style="color:var(--text-dim); font-size:0.95rem; line-height:1.7;">
+            The innermost vault. Sealed by Maximillion Pegasus himself.
+            Rumoured to contain the most forbidden secrets.
+        </p>
+        <div class="mt-2">
+            {% if user and user.role == 'pegasus' %}
+            <span class="access-ok">✦ ACCESS GRANTED</span>
+            {% else %}
+            <span class="access-denied">✦ MILLENNIUM ACCESS REQUIRED</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="panel mt-4" style="position:relative;z-index:1;">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <h2>📜 Lore of the Archive</h2>
+    <div class="divider"></div>
+    <p style="line-height:1.9;">
+        Deep within Duel Academy lies a system that predates the modern era — the <em>Shadow Realm Archive</em>.
+        Built by Maximillion Pegasus during the founding of Industrial Illusions, it holds every duel ever recorded,
+        every card ever created, and secrets that were never meant to surface.
+    </p>
+    <p class="mt-2" style="line-height:1.9;">
+        Pegasus encrypted the deepest vault with a <em>four-digit Millennium code</em>, known only to him.
+        Legends say those who breach the Archive will find knowledge powerful enough to challenge the Shadow Realm itself.
+    </p>
+    <p class="mt-2" style="color:var(--text-dim); font-style:italic;">
+        "The Millennium Eye sees all who seek the forbidden knowledge. Are you worthy, duelist?"
+    </p>
+</div>
+{% endblock %}

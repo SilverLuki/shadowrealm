@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block title %}Duelist Profile — Shadow Realm{% endblock %}
+
+{% block content %}
+<h1>⚔ Duelist Profile</h1>
+<p class="subtitle">Your standing within the Duel Academy system</p>
+
+<div class="profile-grid">
+    <div class="panel">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+        <h2>Identity Card</h2>
+        <div class="divider"></div>
+
+        <div class="stat-row">
+            <span class="stat-label">Duelist Name</span>
+            <span class="stat-val">{{ user.user | title }}</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Clearance Level</span>
+            <span class="stat-val">
+                <span class="nav-role-badge role-{{ user.role }}">{{ user.role }}</span>
+            </span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Life Points</span>
+            <span class="stat-val">4000</span>
+        </div>
+        <div class="lp-bar"><div class="lp-fill"></div></div>
+
+        <div class="stat-row">
+            <span class="stat-label">Auth Protocol</span>
+            <span class="stat-val" style="font-size:0.82rem; color:var(--text-dim);">{{ user.alg_note }}</span>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+        <h2>Session Token</h2>
+        <div class="divider"></div>
+        <p style="color:var(--text-dim); font-size:0.9rem; font-style:italic;">
+            Your current authentication token. Academy protocol uses asymmetric cryptography to secure all sessions.
+        </p>
+        <div class="token-box" id="tokenBox">Loading token...</div>
+        <p class="mt-1" style="font-size:0.8rem; color:var(--text-dim);">
+            💡 <em>Tokens are base64-encoded and can be inspected at
+            <a href="https://jwt.io" style="color:var(--gold-dim);" target="_blank">jwt.io</a></em>
+        </p>
+    </div>
+</div>
+
+{% if user.role == 'guest' %}
+<!-- ── Vuln 1 hint block ─────────────────────────────────────────── -->
+<div class="panel" style="border-color:rgba(201,168,76,0.35);">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <h2>🔒 Clearance Restricted</h2>
+    <div class="divider"></div>
+    <div class="alert alert-info">
+        Your current clearance is <span class="nav-role-badge role-guest">guest</span>.
+        The Archive and Duel API require <strong>Archivist</strong> clearance or above.
+        Certain ancient texts speak of ways to elevate one's clearance...
+    </div>
+    <p style="color:var(--text-dim); font-size:0.95rem; line-height:1.9;">
+        The Academy issues session tokens signed with an <strong style="color:var(--gold);">asymmetric protocol</strong>.
+        The verification key is publicly available at <code>/static/pubkey.pem</code> for transparency.
+        Perhaps there is more to this than meets the eye...
+    </p>
+</div>
+
+<!-- ── Vuln 2 hint block — visible to all authenticated users ───── -->
+<div class="panel" style="border-color:rgba(201,168,76,0.2);">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <h2>📡 Academy Intelligence Bulletin</h2>
+    <div class="divider"></div>
+    <p style="color:var(--text-dim); line-height:1.9; font-size:0.95rem;">
+        Intercepted transmissions indicate that Master Pegasus has sealed his personal dossier
+        behind a <strong style="color:var(--gold);">4-digit Millennium code</strong>.
+        Archivist-level systems expose a <strong style="color:var(--gold);">Duel Records API</strong>
+        at <code>/api/duel</code> — a <strong style="color:var(--gold);">GraphQL</strong> interface,
+        schema self-documented via introspection.
+    </p>
+    <p class="mt-2" style="color:var(--text-dim); line-height:1.8; font-size:0.9rem; font-style:italic;">
+        "The Millennium Eye grows suspicious of rapid attempts against the vault.
+        But perhaps there is a way to make the eye blink...
+        to ask <strong style="color:var(--gold-light);">many questions at once</strong> before it notices."
+    </p>
+    <div style="margin-top:1rem; padding:0.75rem 1rem; background:rgba(0,0,0,0.3); border-left:2px solid var(--gold-dim); font-family:'Courier New',monospace; font-size:0.82rem; color:var(--text-dim);">
+        POST /api/duel &nbsp;—&nbsp; Content-Type: application/json<br/>
+        <span style="color:var(--teal);">{ "query": "{ checkPegasusVault(pin: \"...\") { success message } }" }</span>
+    </div>
+</div>
+
+{% else %}
+<!-- ── Already elevated — show access summary ───────────────────── -->
+<div class="panel" style="border-color:rgba(0,200,160,0.3);">
+    <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+    <div class="alert alert-success">
+        ✨ <strong>Clearance Elevated:</strong> You hold
+        <span class="nav-role-badge role-{{ user.role }}">{{ user.role }}</span>
+        access. The deeper chambers of the Archive await.
+    </div>
+    {% if user.role == 'archivist' %}
+    <p style="color:var(--text-dim); line-height:1.8;">
+        The <strong style="color:var(--gold);">Duel Records API</strong> is now accessible at
+        <a href="/api/duel" style="color:var(--teal);">/api/duel</a> (GraphQL).
+        Master Pegasus has sealed his vault behind a
+        <strong style="color:var(--gold);">4-digit Millennium code</strong>.
+        The <code>checkPegasusVault</code> operation awaits — but the Millennium Eye watches...
+    </p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
